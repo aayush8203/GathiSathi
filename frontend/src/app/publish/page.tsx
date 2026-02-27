@@ -80,7 +80,7 @@ export default function PublishRide() {
                         : `Helmet Provided: ${helmetProvided ? 'Yes' : 'No'}, Rain Gear: ${rainGear ? 'Yes' : 'No'}`
                 };
 
-                const res = await fetch('http://localhost:5000/api/rides', {
+                const res = await fetch('${process.env.NEXT_PUBLIC_API_URL}/api/rides', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

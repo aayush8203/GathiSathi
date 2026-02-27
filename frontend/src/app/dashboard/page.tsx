@@ -44,7 +44,7 @@ export default function Dashboard() {
                 if (!token) return;
 
                 // Fetch bookings
-                const resBookings = await fetch('http://localhost:5000/api/bookings/my-bookings', {
+                const resBookings = await fetch('${process.env.NEXT_PUBLIC_API_URL}/api/bookings/my-bookings', {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 const dataBookings = await resBookings.json();
@@ -65,7 +65,7 @@ export default function Dashboard() {
                 }
 
                 // Fetch offered rides
-                const resOffered = await fetch('http://localhost:5000/api/rides/my-rides', {
+                const resOffered = await fetch('${process.env.NEXT_PUBLIC_API_URL}/api/rides/my-rides', {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 const dataOffered = await resOffered.json();

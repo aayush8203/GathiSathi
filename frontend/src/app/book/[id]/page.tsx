@@ -22,7 +22,7 @@ export default function BookRide({ params }: { params: Promise<{ id: string }> }
         } else {
             const fetchRide = async () => {
                 try {
-                    const res = await fetch(`http://localhost:5000/api/rides/${id}`);
+                    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/rides/${id}`);
                     const data = await res.json();
                     if (res.ok) {
                         setRide({
@@ -56,7 +56,7 @@ export default function BookRide({ params }: { params: Promise<{ id: string }> }
                 return;
             }
 
-            const res = await fetch('http://localhost:5000/api/bookings', {
+            const res = await fetch('${process.env.NEXT_PUBLIC_API_URL}/api/bookings', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

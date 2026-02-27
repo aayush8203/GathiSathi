@@ -98,7 +98,7 @@ export default function Home() {
       if (to) searchParams.append("to", to);
       if (date) searchParams.append("date", date);
 
-      const res = await fetch(`http://localhost:5000/api/rides?${searchParams.toString()}`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/rides?${searchParams.toString()}`);
       const data = await res.json();
 
       if (res.ok) {
