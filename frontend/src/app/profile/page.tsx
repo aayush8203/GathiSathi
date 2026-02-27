@@ -64,7 +64,7 @@ export default function ProfilePage() {
 
         try {
             const token = localStorage.getItem("token");
-            const res = await fetch("${process.env.NEXT_PUBLIC_API_URL}/api/users/profile", {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users/profile`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
