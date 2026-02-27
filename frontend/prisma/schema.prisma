@@ -1,0 +1,86 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  phone        String?
+  isVerified   Boolean  @default(false)
+  
+  // Rides they are offering as drivers
+  offeredRides Ride[]   @relation("DriverOfferedRides")
+  
+  // Rides they have booked as passengers
+  bookings     Booking[]
+  
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+enum VehicleType {
+  CAR
+  BIKE
+}
+
+enum TrunkSpace {
+  NONE
+  SMALL
+  MEDIUM
+  LARGE
+}
+
+model Ride {
+  id          String      @id @default(cuid())
+  driverId    String
+  driver      User        @relation("DriverOfferedRides", fields: [driverId], references: [id])
+  
+  mode        VehicleType
+  from        String
+  to          String
+  date        DateTime
+  
+  price       Float
+  
+  // Available seats (1 for bike, 1-6 for car)
+  seatsOffered Int
+  
+  // Specific toggles mapped globally
+  hasAc       Boolean     @default(false)
+  trunkSpace  TrunkSpace?
+  hasHelmet   Boolean     @default(false)
+  hasRainGear Boolean     @default(false)
+  
+  bookings    Booking[]
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+}
+
+model Booking {
+  id        String       @id @default(cuid())
+  passenger User         @relation(fields: [passengerId], references: [id])
+  passengerId String
+  
+  ride      Ride         @relation(fields: [rideId], references: [id])
+  rideId    String
+  
+  seatsBooked Int        @default(1)
+  status      BookingStatus @default(PENDING)
+  
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+}
